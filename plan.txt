@@ -1,0 +1,10 @@
+Travel Journal
+
+Description: An app for travelers to document their journeys, share experiences, and connect with other travelers.
+Key Features:
+User authentication and profile management
+Journal entries with photos, locations, and travel dates
+Map integration to visualize travel routes
+Commenting and liking features on entries
+Trip planning tools with itineraries
+Tech Stack: React Native (for mobile), Node.js, Express, MongoDB
