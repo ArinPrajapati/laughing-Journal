@@ -1,8 +1,9 @@
-import { signup } from "../controller/auth";
+import { login, magicLogin, signup } from "../controller/auth";
 import express from "express";
-import sanitizeMiddleware from "../middleware/sanitizeInput";
 
 const routes = express.Router();
 routes.post("/signup", signup);
+routes.post("/migicLink", magicLogin);
+routes.post("/login", login);
 
 export default routes;

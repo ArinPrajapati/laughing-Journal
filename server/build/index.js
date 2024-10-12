@@ -11,7 +11,7 @@ const routes_1 = __importDefault(require("./routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8800;
-// loading of configs
+// loading of configs & middlewares
 (0, connectDB_1.connectDB)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
