@@ -2,7 +2,12 @@ import User from "../models/userModel";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { _500 } from "../helper/error";
+import jwt from "jsonwebtoken";
 
+// post - /api/auth/signup
+// body - name, email, password
+// auth - false
+// access - public
 const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password } = req.body;
@@ -47,4 +52,45 @@ const signup = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { signup };
+// post - /api/auth/login
+// body - email , password
+// auth - false
+// access - public
+
+const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ message: "Please fill all the fields" });
+      return;
+    }
+    const getUser = await User.findOne({ email });
+    if (!getUser) {
+      res.status(400).json({ message: "User with this email does not exist" });
+    }
+    const isMatch = await bcrypt.compare(password, getUser?.password || "");
+
+    if (!isMatch) {
+      res.status(401).json({
+        message: "Invalid Password ",
+      });
+    }
+    const token = jwt.sign(
+      {
+        id: getUser?._id,
+      },
+      process.env.JWT_SECRET as jwt.Secret,
+      { expiresIn: "7d" }
+    );
+
+    res.status(200).json({
+      message: "Login Successfull",
+      token: token,
+    });
+  } catch (error: any) {
+    _500("Login Failed", error.message, res);
+  }
+};
+
+
+export { signup, login };

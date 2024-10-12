@@ -7,7 +7,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 8800;
 
-// loading of configs
+// loading of configs & middlewares
 connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

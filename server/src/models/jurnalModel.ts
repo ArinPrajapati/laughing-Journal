@@ -14,6 +14,14 @@ const JournalSchema = new mongoose.Schema({
       type: String,
     },
   ],
+  travelDates: {
+    tripStart: {
+      type: Date,
+    },
+    tripEnd: {
+      type: Date,
+    },
+  },
   date: {
     type: Date,
     require: true,
