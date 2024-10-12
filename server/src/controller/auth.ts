@@ -5,6 +5,7 @@ import { _500 } from "../helper/error";
 import jwt from "jsonwebtoken";
 import sendEmail from "../config/nodeMailler";
 
+// create a new user
 // post - /api/auth/signup
 // body - name, email, password
 // auth - false
@@ -147,7 +148,7 @@ const magicLogin = async (req: Request, res: Response): Promise<void> => {
         <p class="text-gray-700 mb-6">
           Hello! Click the button below to securely log into your account.
         </p>
-        <a href="${process.env.CLIENT_URL}/auth/login/${token}" 
+        <a target="_blank" href="${process.env.CLIENT_URL}/auth/login/${token}" 
            class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-center font-medium hover:bg-blue-700 transition-colors">
           Login Now
         </a>
@@ -167,4 +168,33 @@ const magicLogin = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { signup, login, magicLogin };
+const updatePassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, oldPassword, newPassword } = req.body;
+    if (!email || !oldPassword || !newPassword) {
+      res.status(400).json({ message: "Please fill all the fields" });
+      return;
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({ message: "User Not Found" });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user?.password || "");
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid Password" });
+      return;
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password Updated" });
+  } catch (error) {
+    _500("Update Password Failed", (error as Error).message, res);
+  }
+};
+export { signup, login, magicLogin, updatePassword };

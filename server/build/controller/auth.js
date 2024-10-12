@@ -9,6 +9,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const error_1 = require("../helper/error");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const nodeMailler_1 = __importDefault(require("../config/nodeMailler"));
+// create a new user
 // post - /api/auth/signup
 // body - name, email, password
 // auth - false
@@ -134,7 +135,7 @@ const magicLogin = async (req, res) => {
         <p class="text-gray-700 mb-6">
           Hello! Click the button below to securely log into your account.
         </p>
-        <a href="${process.env.CLIENT_URL}/auth/login/${token}" 
+        <a target="_blank" href="${process.env.CLIENT_URL}/auth/login/${token}" 
            class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-center font-medium hover:bg-blue-700 transition-colors">
           Login Now
         </a>
@@ -154,3 +155,10 @@ const magicLogin = async (req, res) => {
     }
 };
 exports.magicLogin = magicLogin;
+const updatePassword = async (req, res) => {
+    try {
+    }
+    catch (error) {
+        (0, error_1._500)("Update Password Failed", error.message, res);
+    }
+};
