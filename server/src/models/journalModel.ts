@@ -31,6 +31,21 @@ const JournalSchema = new mongoose.Schema({
     ref: "User",
     require: true,
   },
+  tag: {
+    enum: [
+      "Adventure",
+      "Cultural",
+      "Food",
+      "Family",
+      "Solo",
+      "Budget",
+      "Luxury",
+      "Nature",
+      "Digital",
+      "Themed",
+    ],
+    require: true,
+  },
   public: {
     type: Boolean,
     default: false,
