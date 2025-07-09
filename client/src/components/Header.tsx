@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import logoImg from "@/public/2870556.png";
-import coinImg from "@/public/coin_3665566.png";
 import { Button } from "./ui/button";
+import { CoinPurchaseModalComponent } from "./coin-purchase-modal";
 
 const Header = () => {
   const [isLogin, setIsLogin] = React.useState(false);
@@ -24,21 +24,7 @@ const Header = () => {
         <span className="text-2xl md:text-3xl font-bold ml-2">
           Laughing Journal
         </span>
-        {isLogin && (
-          <div
-            onClick={() => setCoins(coins + 1)}
-            className="ml-5 flex items-center gap-2 cursor-pointer"
-          >
-            <Image
-              src={coinImg}
-              alt="coin"
-              width={40}
-              height={40}
-              className="w-8 h-8 md:w-10 md:h-10"
-            />
-            <span className="text-lg md:text-xl">{coins}</span>
-          </div>
-        )}
+        {isLogin && <CoinPurchaseModalComponent />}
       </div>
 
       {!isLogin ? (
